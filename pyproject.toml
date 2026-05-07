@@ -1,0 +1,33 @@
+[project]
+name = "pi-energia"
+version = "0.1.0"
+description = "Capacity expansion planning (MILP) para o SIN brasileiro"
+authors = [
+    {name = "Breno Bertone",email = "bertonebreno@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.12,<4.0"
+dependencies = [
+    "pandas (>=3.0.2,<4.0.0)",
+    "pyarrow (>=24.0.0,<25.0.0)",
+    "fastparquet (>=2026.3.0,<2027.0.0)",
+    "plotly (>=6.7.0,<7.0.0)",
+    "nbformat (>=5.10.4,<6.0.0)",
+    "ipykernel (>=7.2.0,<8.0.0)",
+    "sqlalchemy (>=2.0.0,<3.0.0)",
+    "pyomo (>=6.7.0,<7.0.0)",
+    "highspy (>=1.7.0,<2.0.0)",
+    "pyyaml (>=6.0.0,<7.0.0)",
+    "typer (>=0.12.0,<1.0.0)",
+    "streamlit (>=1.57.0,<2.0.0)"
+]
+
+[project.scripts]
+pi = "pi_energia.cli.main:app"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+packages = [{include = "pi_energia", from = "src"}]

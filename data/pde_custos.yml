@@ -1,0 +1,47 @@
+# Parâmetros econômicos transcritos do PDE 2035 "Parâmetros de Custos da
+# Geração e Transmissão" (EPE, Nov/2025).
+# Fonte textual: /Users/bertone/Coding/PI-energia/datasets/parametros_custo_geracao/README.md
+# Base cambial: R$ 6,10 / USD; data base Dez/2024; WACC real 8% a.a.
+
+meta:
+  wacc_real: 0.08
+  moeda: BRL
+  base: "2024-12"
+  source: "PDE 2035 — Parâmetros de Custos Geração e Transmissão, slides 10-12"
+
+tecnologias:
+  sol:
+    nome: "Solar FV"
+    capex_rs_kw: 3500
+    om_fixo_rs_kw_ano: 60
+    cvu_rs_mwh: 0
+    vida_anos: 25
+    bloco_mw: 30
+    is_expansivel: true
+
+  eol:
+    nome: "Eólica Onshore"
+    capex_rs_kw: 5000
+    om_fixo_rs_kw_ano: 110
+    cvu_rs_mwh: 0
+    vida_anos: 20
+    bloco_mw: 50
+    is_expansivel: true
+
+  term:
+    nome: "Gás Natural 100% Flex"
+    capex_rs_kw: 4500
+    om_fixo_rs_kw_ano: 190
+    cvu_rs_mwh: 1000
+    vida_anos: 20
+    bloco_mw: null
+    is_expansivel: false
+
+  hidro:
+    nome: "Hidro existente"
+    capex_rs_kw: null
+    om_fixo_rs_kw_ano: 0
+    cvu_rs_mwh: 0
+    vida_anos: null
+    bloco_mw: null
+    is_expansivel: false

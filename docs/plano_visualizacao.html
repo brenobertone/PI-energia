@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plano de Visualização — PI Energia</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #22263a;
+    --border: #2e3250;
+    --accent: #4f8ef7;
+    --accent2: #f7a24f;
+    --accent3: #4ff7a2;
+    --accent4: #f74f8e;
+    --text: #dde2f5;
+    --muted: #7a82a8;
+    --tag-sol: #f7d24f;
+    --tag-eol: #4fcff7;
+    --tag-hidro: #4f8ef7;
+    --tag-term: #f7744f;
+    --tag-tx: #a24ff7;
+    --raw: #f74f8e;
+    --stg: #f7a24f;
+    --mart: #4ff7a2;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+  a { color: var(--accent); text-decoration: none; }
+
+  /* ── Layout ── */
+  .page { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
+
+  /* ── Header ── */
+  .hero {
+    border-left: 4px solid var(--accent);
+    padding: 20px 24px;
+    background: var(--surface);
+    border-radius: 0 8px 8px 0;
+    margin-bottom: 48px;
+  }
+  .hero h1 { font-size: 1.9rem; font-weight: 700; color: #fff; }
+  .hero p { color: var(--muted); margin-top: 8px; }
+
+  /* ── Nav ── */
+  .toc {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin-bottom: 48px;
+  }
+  .toc h2 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 12px; }
+  .toc ol { padding-left: 20px; }
+  .toc li { margin: 4px 0; }
+
+  /* ── Sections ── */
+  .section { margin-bottom: 56px; }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-num {
+    width: 36px; height: 36px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 0.9rem;
+    flex-shrink: 0;
+  }
+  .section-header h2 { font-size: 1.3rem; font-weight: 600; }
+  .section-header .sub { font-size: 0.85rem; color: var(--muted); margin-top: 2px; }
+
+  /* ── Cards ── */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; margin-bottom: 24px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px; }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 18px 20px;
+  }
+  .card h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 8px; }
+  .card p { font-size: 0.85rem; color: var(--muted); }
+  .card ul { font-size: 0.85rem; color: var(--muted); padding-left: 16px; }
+  .card ul li { margin: 3px 0; }
+  .card .chart-type { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
+
+  /* ── Layer badges ── */
+  .badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 2px 8px;
+    border-radius: 20px;
+    margin-right: 6px;
+    margin-bottom: 4px;
+  }
+  .badge.raw { background: color-mix(in srgb, var(--raw) 15%, transparent); color: var(--raw); border: 1px solid color-mix(in srgb, var(--raw) 40%, transparent); }
+  .badge.stg { background: color-mix(in srgb, var(--stg) 15%, transparent); color: var(--stg); border: 1px solid color-mix(in srgb, var(--stg) 40%, transparent); }
+  .badge.mart { background: color-mix(in srgb, var(--mart) 15%, transparent); color: var(--mart); border: 1px solid color-mix(in srgb, var(--mart) 40%, transparent); }
+  .badge.sol { background: color-mix(in srgb, var(--tag-sol) 15%, transparent); color: var(--tag-sol); border: 1px solid color-mix(in srgb, var(--tag-sol) 40%, transparent); }
+  .badge.eol { background: color-mix(in srgb, var(--tag-eol) 15%, transparent); color: var(--tag-eol); border: 1px solid color-mix(in srgb, var(--tag-eol) 40%, transparent); }
+  .badge.hidro { background: color-mix(in srgb, var(--tag-hidro) 15%, transparent); color: var(--tag-hidro); border: 1px solid color-mix(in srgb, var(--tag-hidro) 40%, transparent); }
+  .badge.term { background: color-mix(in srgb, var(--tag-term) 15%, transparent); color: var(--tag-term); border: 1px solid color-mix(in srgb, var(--tag-term) 40%, transparent); }
+  .badge.tx { background: color-mix(in srgb, var(--tag-tx) 15%, transparent); color: var(--tag-tx); border: 1px solid color-mix(in srgb, var(--tag-tx) 40%, transparent); }
+
+  /* ── Insight boxes ── */
+  .insight {
+    background: color-mix(in srgb, var(--accent) 8%, var(--surface));
+    border-left: 3px solid var(--accent);
+    border-radius: 0 6px 6px 0;
+    padding: 12px 16px;
+    margin-top: 16px;
+    font-size: 0.875rem;
+  }
+  .insight strong { color: var(--accent); }
+  .warning {
+    background: color-mix(in srgb, var(--accent2) 8%, var(--surface));
+    border-left: 3px solid var(--accent2);
+  }
+  .warning strong { color: var(--accent2); }
+
+  /* ── Data table ── */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.84rem;
+    margin-bottom: 20px;
+  }
+  .data-table th {
+    background: var(--surface2);
+    color: var(--muted);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 8px 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  .data-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table code {
+    font-family: 'Cascadia Code', 'Fira Code', monospace;
+    font-size: 0.82rem;
+    color: var(--accent3);
+    background: color-mix(in srgb, var(--accent3) 8%, transparent);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+
+  /* ── Wireframe ── */
+  .wireframe {
+    background: var(--surface2);
+    border: 1px dashed var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    font-family: 'Cascadia Code', 'Fira Code', monospace;
+    font-size: 0.78rem;
+    color: var(--muted);
+    white-space: pre;
+    overflow-x: auto;
+    margin: 16px 0;
+    line-height: 1.4;
+  }
+
+  /* ── Chart spec boxes ── */
+  .spec {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px 16px;
+    margin: 12px 0;
+  }
+  .spec-title { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent); margin-bottom: 8px; }
+  .spec dl { display: grid; grid-template-columns: max-content 1fr; gap: 4px 12px; font-size: 0.82rem; }
+  .spec dt { color: var(--muted); }
+  .spec dd { color: var(--text); }
+
+  /* ── Pipeline diagram ── */
+  .pipeline {
+    display: flex;
+    gap: 0;
+    margin: 20px 0;
+    overflow-x: auto;
+  }
+  .pipe-step {
+    flex: 1;
+    min-width: 120px;
+    padding: 12px 16px;
+    font-size: 0.8rem;
+    text-align: center;
+  }
+  .pipe-step.raw-step { background: color-mix(in srgb, var(--raw) 12%, var(--surface)); border: 1px solid color-mix(in srgb, var(--raw) 30%, transparent); border-radius: 8px 0 0 8px; }
+  .pipe-step.stg-step { background: color-mix(in srgb, var(--stg) 12%, var(--surface)); border: 1px solid color-mix(in srgb, var(--stg) 30%, transparent); border-top: 1px solid; border-bottom: 1px solid; }
+  .pipe-step.mart-step { background: color-mix(in srgb, var(--mart) 12%, var(--surface)); border: 1px solid color-mix(in srgb, var(--mart) 30%, transparent); border-radius: 0 8px 8px 0; }
+  .pipe-step .pipe-label { font-weight: 700; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+  .pipe-step.raw-step .pipe-label { color: var(--raw); }
+  .pipe-step.stg-step .pipe-label { color: var(--stg); }
+  .pipe-step.mart-step .pipe-label { color: var(--mart); }
+  .pipe-step .pipe-table { font-size: 0.75rem; color: var(--muted); }
+  .pipe-step .pipe-gran { margin-top: 8px; font-size: 0.72rem; color: var(--text); }
+
+  .arrow { display: flex; align-items: center; padding: 0 4px; color: var(--muted); font-size: 1.2rem; }
+
+  /* ── Heatmap legend ── */
+  .hm-legend {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-top: 8px;
+  }
+  .hm-bar {
+    width: 120px;
+    height: 12px;
+    border-radius: 3px;
+    background: linear-gradient(to right, #1a237e, #1565c0, #0288d1, #4caf50, #f9a825, #f44336);
+  }
+
+  /* ── Strategic questions ── */
+  .question-list { counter-reset: q; list-style: none; padding: 0; }
+  .question-list li {
+    counter-increment: q;
+    padding: 12px 16px 12px 52px;
+    position: relative;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.88rem;
+  }
+  .question-list li::before {
+    content: counter(q);
+    position: absolute;
+    left: 16px;
+    top: 12px;
+    width: 24px;
+    height: 24px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--muted);
+    text-align: center;
+    line-height: 24px;
+  }
+  .question-list li span { color: var(--muted); display: block; font-size: 0.8rem; margin-top: 2px; }
+
+  /* ── View layout blocks ── */
+  .view-layout {
+    display: grid;
+    gap: 2px;
+    margin: 16px 0;
+  }
+  .vl-row { display: grid; gap: 2px; }
+  .vl-cell {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 10px 14px;
+    font-size: 0.8rem;
+  }
+  .vl-cell .vl-name { font-weight: 600; color: var(--text); }
+  .vl-cell .vl-src { font-size: 0.72rem; color: var(--muted); margin-top: 2px; }
+
+  h3.sub-head { font-size: 1rem; font-weight: 600; margin: 28px 0 12px; color: var(--accent3); }
+
+  .divider { height: 1px; background: var(--border); margin: 40px 0; }
+
+  footer { text-align: center; color: var(--muted); font-size: 0.8rem; margin-top: 60px; padding-top: 24px; border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ── HEADER ── -->
+  <div class="hero">
+    <h1>Plano de Visualização — PI Energia</h1>
+    <p>Mapeamento completo dos dados disponíveis nas camadas RAW → STG → MART, orientado à exploração estratégica para modelagem de expansão do SIN.</p>
+    <p style="margin-top:6px;font-size:0.82rem;">Versão 1.0 · Abril 2026 · Foco em inputs · Sem resultados do solver</p>
+  </div>
+
+  <!-- ── TOC ── -->
+  <div class="toc">
+    <h2>Índice</h2>
+    <ol>
+      <li><a href="#pipeline">Pipeline de dados: granularidade em cada camada</a></li>
+      <li><a href="#mapa">View 1 — Mapa do Parque Gerador (SIGA)</a></li>
+      <li><a href="#demanda">View 2 — Curvas de Demanda (Carga ONS)</a></li>
+      <li><a href="#fc">View 3 — Perfis de Disponibilidade Renovável (FC ONS)</a></li>
+      <li><a href="#transmissao">View 4 — Rede de Transmissão (SIGET)</a></li>
+      <li><a href="#economia">View 5 — Parâmetros Econômicos (PDE 2035)</a></li>
+      <li><a href="#estrategia">Questões estratégicas que cada view responde</a></li>
+      <li><a href="#tech">Stack sugerida para implementação</a></li>
+    </ol>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SECTION 0 — Pipeline overview
+       ══════════════════════════════════════════ -->
+  <div class="section" id="pipeline">
+    <div class="section-header">
+      <div class="section-num">0</div>
+      <div>
+        <h2>Pipeline de dados: granularidade em cada camada</h2>
+        <div class="sub">O que existe, de onde vem e o que é perdido em cada agregação</div>
+      </div>
+    </div>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Fonte</th>
+          <th>Tabela RAW</th>
+          <th>Granularidade RAW</th>
+          <th>→ STG</th>
+          <th>→ MART</th>
+          <th>Informação perdida na agregação</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>ONS Carga</strong><br><small>.parquet 2025</small></td>
+          <td><code>raw_carga_energia</code></td>
+          <td>Diário × 4 subsistemas<br><small>~1.460 linhas/ano</small></td>
+          <td><code>stg_carga_diaria_mwmed</code><br><small>= passthrough</small></td>
+          <td><code>mart_demanda</code><br><small>Média mensal → 288 passos</small></td>
+          <td>Variação dia-a-dia intra-mês; picos e vales diários; dia da semana; feriados</td>
+        </tr>
+        <tr>
+          <td><strong>ONS FC Eól/Sol</strong><br><small>12 parquets horários</small></td>
+          <td><code>raw_fator_capacidade</code></td>
+          <td>Horário × usina × subsistema<br><small>~8.760h × N usinas</small></td>
+          <td><code>stg_fc_horario_ponderado</code><br><small>Média pond. por (sub, tech, h)</small></td>
+          <td><code>mart_disponibilidade</code><br><small>Média mensal por (sub, tech, mês, h)</small></td>
+          <td>Variação inter-diária; correlação espacial entre usinas; correlação wind-solar dentro do mês; extremos de produção</td>
+        </tr>
+        <tr>
+          <td><strong>ANEEL SIGA</strong><br><small>CSV estático</small></td>
+          <td><code>raw_siga_usina</code></td>
+          <td>Por usina (CEG) — ~10.000+ linhas<br><small>Lat, lon, kW, fase, combustível, bacia</small></td>
+          <td><code>dim_usina_siga</code> (por CEG)<br><code>stg_capacidade_siga_op</code><br><small>Soma MW por (sub, tech) operação</small></td>
+          <td><code>mart_capacidade_existente</code><br><small>Matriz 4×4 sub×tech</small></td>
+          <td>Localização individual; usinas em construção/planejamento; distribuição de portes; combustível de térmicas; bacia hidrográfica; garantia física individual</td>
+        </tr>
+        <tr>
+          <td><strong>ANEEL SIGET</strong><br><small>CSV linhas</small></td>
+          <td><code>raw_siget_linha</code></td>
+          <td>Por linha individual<br><small>Tensão, km, subestações O/D, UF</small></td>
+          <td><code>stg_siget_interligacao</code><br><small>Agregado por (par, kV)</small></td>
+          <td><code>mart_arco</code><br><small>Capacidade total por par (MVA)</small></td>
+          <td>Roteamento ponto-a-ponto; redundância topológica; perdas por km; detalhamento por subestação; circuitos individuais; tensões detalhadas</td>
+        </tr>
+        <tr>
+          <td><strong>EPE PDE 2035</strong><br><small>YAML manual</small></td>
+          <td><code>raw_pde_parametro</code></td>
+          <td>Por tecnologia × variante<br><small>4 techs × 1 variante = 4 linhas</small></td>
+          <td>—</td>
+          <td><code>mart_parametro_tech</code><br><small>+ CRF calculado</small></td>
+          <td>Nenhuma variante alternativa modelada; sem sensibilidade a preços; sem curva de aprendizado</td>
+        </tr>
+        <tr>
+          <td><strong>Ref MVA/kV</strong><br><small>YAML referência</small></td>
+          <td><code>raw_ref_mva_por_tensao</code></td>
+          <td>7 níveis de tensão (230–800 kV)</td>
+          <td>Lookup para stg_siget</td>
+          <td>—</td>
+          <td>—</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="insight">
+      <strong>Leitura-chave:</strong> As visualizações mais ricas estão nas camadas RAW e STG — especialmente <code>raw_fator_capacidade</code> (8.760h × usinas) e <code>raw_siga_usina</code> (georreferenciado). A camada MART é uma projeção lossy dessas fontes para o solver.
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ══════════════════════════════════════════
+       VIEW 1 — MAPA SIGA
+       ══════════════════════════════════════════ -->
+  <div class="section" id="mapa">
+    <div class="section-header">
+      <div class="section-num">1</div>
+      <div>
+        <h2>View 1 — Mapa do Parque Gerador</h2>
+        <div class="sub">Fonte: <code>raw_siga_usina</code> + <code>dim_usina_siga</code> · ~10.000+ empreendimentos georreferenciados</div>
+      </div>
+    </div>
+
+    <p>Esta é a visão de maior riqueza geográfica do projeto. Cada usina tem latitude/longitude e pode ser plotada diretamente.</p>
+
+    <div class="grid" style="margin-top:16px;">
+      <div class="card">
+        <div class="chart-type" style="color:var(--accent);">🗺 Mapa de pontos</div>
+        <h3>Todas as usinas — por fase e tipo</h3>
+        <ul>
+          <li>Ponto por CEG (usina)</li>
+          <li>Cor: <span class="badge sol">Sol</span> <span class="badge eol">Eól</span> <span class="badge hidro">Hidro</span> <span class="badge term">Term</span></li>
+          <li>Opacidade/forma: fase (Operação / Construção / Planejamento)</li>
+          <li>Raio: proporcional a MW (outorgada ou fiscalizada)</li>
+          <li>Tooltip: CEG, nome, UF, MW, data entrada op.</li>
+        </ul>
+        <div class="insight" style="margin-top:10px;">Revela concentração geográfica de cada fonte, fronteiras de subsistema e "buracos" de renovável.</div>
+      </div>
+      <div class="card">
+        <div class="chart-type" style="color:var(--accent);">📊 Sunburst / Treemap</div>
+        <h3>Hierarquia do parque</h3>
+        <ul>
+          <li>Nível 1: Subsistema (N, NE, S, SE_CO)</li>
+          <li>Nível 2: Família (renovável, hidro, térmica)</li>
+          <li>Nível 3: Tipo SIGA (UFV, EOL, UHE, PCH, UTE…)</li>
+          <li>Área: MW fiscalizada</li>
+          <li>Separável por fase</li>
+        </ul>
+        <div class="insight" style="margin-top:10px;">Mostra peso relativo de cada tecnologia dentro de cada região — base para pensar onde há espaço para expansão.</div>
+      </div>
+      <div class="card">
+        <div class="chart-type" style="color:var(--accent);">📉 Histograma</div>
+        <h3>Distribuição de portes (MW)</h3>
+        <ul>
+          <li>Histograma log-scale de MW por usina</li>
+          <li>Separado por tecnologia</li>
+          <li>Mostra bimodalidade (PCH vs. UHE, mini-solar vs. grande)</li>
+        </ul>
+        <div class="insight" style="margin-top:10px;">Relevante para calibrar o <code>bloco_mw</code> mínimo de expansão — se há muitas usinas pequenas, blocos menores fazem sentido.</div>
+      </div>
+      <div class="card">
+        <div class="chart-type" style="color:var(--accent);">📅 Timeline</div>
+        <h3>Histórico de entrada em operação</h3>
+        <ul>
+          <li>Eixo X: DatEntradaOperacao (ano)</li>
+          <li>Eixo Y: MW acumulado ou por safra</li>
+          <li>Stacked por tecnologia</li>
+          <li>Linhas verticais: marcos (Proinfa, leilões de renováveis)</li>
+        </ul>
+        <div class="insight" style="margin-top:10px;">Revela vida útil remanescente do parque — usinas antigas têm maior probabilidade de descomissionamento no horizonte do plano.</div>
+      </div>
+    </div>
+
+    <h3 class="sub-head">Transmissão superposta</h3>
+    <div class="grid">
+      <div class="card">
+        <div class="chart-type" style="color:var(--tag-tx);">🔗 Linhas no mapa</div>
+        <h3>Linhas SIGET ativas sobre o mapa</h3>
+        <ul>
+          <li>Uma linha por <code>IdeLinTms</code></li>
+          <li>Cor: tensão (230kV azul → 800kV vermelho)</li>
+          <li>Espessura: MVA estimado</li>
+          <li>Filtro por UF ou par de subsistemas</li>
+          <li>Tooltip: nome, tensão, km, subestações O/D</li>
+        </ul>
+        <p style="margin-top:10px;color:var(--muted);font-size:0.82rem;"><em>Nota: o SIGET não tem lat/lon das linhas — subestações podem ser geocodificadas pelo nome para traçar as conexões.</em></p>
+      </div>
+      <div class="card">
+        <div class="chart-type" style="color:var(--tag-tx);">📊 Barras agrupadas</div>
+        <h3>Capacidade de interligação por par e kV</h3>
+        <ul>
+          <li>Eixo X: par de subsistemas (N↔NE, NE↔SE_CO, …)</li>
+          <li>Barras empilhadas por nível de tensão</li>
+          <li>Valor: MVA total (<code>stg_siget_interligacao</code>)</li>
+          <li>Comparação: capacidade vs. demanda do subsistema destino</li>
+        </ul>
+        <div class="insight" style="margin-top:10px;">Identifica gargalos de transmissão — pares com alta demanda mas baixa capacidade são candidatos a expansão de malha.</div>
+      </div>
+    </div>
+
+    <div class="spec">
+      <div class="spec-title">Dados necessários — View 1</div>
+      <dl>
+        <dt>Tabelas</dt>
+        <dd><code>raw_siga_usina</code>, <code>dim_usina_siga</code>, <code>dim_subsistema</code>, <code>dim_tecnologia</code>, <code>raw_siget_linha</code>, <code>stg_siget_interligacao</code></dd>
+        <dt>Colunas-chave</dt>
+        <dd>NumCoordNEmpreendimento, NumCoordEEmpreendimento, MdaPotenciaFiscalizadaKw, SigTipoGeracao, DscFaseUsina, DatEntradaOperacao, SigUFPrincipal, NumTensaoBaseLinhaTransm_kV, NumEtnLinTms_km</dd>
+        <dt>Granularidade</dt>
+        <dd>Uma linha por usina (CEG) para o mapa; agregado por (subsistema, tech, fase) para os charts de composição</dd>
+      </dl>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ══════════════════════════════════════════
+       VIEW 2 — DEMANDA
+       ══════════════════════════════════════════ -->
+  <div class="section" id="demanda">
+    <div class="section-header">
+      <div class="section-num">2</div>
+      <div>
+        <h2>View 2 — Curvas de Demanda</h2>
+        <div class="sub">Fonte: <code>raw_carga_energia</code> + <code>stg_carga_diaria_mwmed</code> · Diário × 4 subsistemas · ~1.460 pontos/ano</div>
+      </div>
+    </div>
+
+    <p>A demanda é capturada em resolução diária — a granularidade máxima disponível. O mart perde a variação intra-mensal ao calcular a média mensal.</p>
+
+    <div class="grid">
+      <div class="card">
+        <div class="chart-type" style="color:var(--accent);">📈 Série temporal</div>
+        <h3>Carga diária 2025 — todos os subsistemas</h3>
+        <ul>
+          <li>Eixo X: data (1 Jan → 31 Dez 2025)</li>
+          <li>4 linhas: N, NE, S, SE_CO</li>
+          <li>Banda de confiança: ±1σ mensal</li>
+          <li>Marcadores: média mensal (o que o mart usa)</li>
+          <li>Hover: valor exato, dia da semana</li>
+        </ul>
+        <div class="insight" style="margin-top:10px;">Mostra quanto a hipótese de demanda mensal constante do mart é uma simplificação — picos de verão/inverno são visíveis.</div>
+      </div>
+      <div class="card">
+        <div class="chart-type" style="color:var(--accent);">🗓 Heatmap calendário</div>
+        <h3>Intensidade de carga por dia do ano</h3>
+        <ul>
+          <li>GitHub-style: semanas × meses</li>
+          <li>Cor: MWmed (azul=baixo → vermelho=alto)</li>
+          <li>Um heatmap por subsistema (4 painéis)</li>
+          <li>Revela sazonalidade, feriados, fenômenos climáticos</li>
+        </ul>
+        <div class="insight" style="margin-top:10px;">Subsistemas têm sazonalidades distintas — SE_CO (ar condicionado verão) vs. S (aquecimento inverno).</div>
+      </div>
+      <div class="card">
+        <div class="chart-type" style="color:var(--accent);">📊 Box-plot mensal</div>
+        <h3>Dispersão da carga por mês</h3>
+        <ul>
+          <li>Eixo X: mês (Jan–Dez)</li>
+          <li>Box: IQR dos dias do mês</li>
+          <li>Bigodes: min/max</li>
+          <li>Ponto central: média mensal (usado no mart)</li>
+          <li>Facetado por subsistema</li>
+        </ul>
+        <div class="insight" style="margin-top:10px;">Quantifica o erro introduzido pela média mensal — meses com alta variância (dezembro, julho) têm maior risco de subdimensionamento.</div>
+      </div>
+      <div class="card">
+        <div class="chart-type" style="color:var(--accent);">🔵 Scatter correlação</div>
+        <h3>Correlação entre subsistemas</h3>
+        <ul>
+          <li>Matriz de scatter: NE × SE_CO, N × NE, S × SE_CO</li>
+          <li>Ponto por dia</li>
+          <li>Cor: mês</li>
+          <li>Linha de regressão</li>
+          <li>R² exibido</li>
+        </ul>
+        <div class="insight" style="margin-top:10px;">Alta correlação entre subsistemas reduz o benefício do intercâmbio — demandas simultâneas não se compensam.</div>
+      </div>
+    </div>
+
+    <div class="spec">
+      <div class="spec-title">Dados necessários — View 2</div>
+      <dl>
+        <dt>Tabelas</dt>
+        <dd><code>raw_carga_energia</code>, <code>stg_carga_diaria_mwmed</code>, <code>mart_demanda</code></dd>
+        <dt>Query-chave</dt>
+        <dd>JOIN entre raw e mart para mostrar a diferença entre dado real e dado simplificado usado no modelo</dd>
+        <dt>Granularidade</dt>
+        <dd>Diária (máxima disponível); o mart tem resolução mensal (288 passos = 12 meses × 24h, mas demanda constante por hora dentro do mês)</dd>
+      </dl>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ══════════════════════════════════════════
+       VIEW 3 — FC RENOVÁVEIS
+       ══════════════════════════════════════════ -->
+  <div class="section" id="fc">
+    <div class="section-header">
+      <div class="section-num">3</div>
+      <div>
+        <h2>View 3 — Perfis de Disponibilidade Renovável</h2>
+        <div class="sub">Fonte: <code>raw_fator_capacidade</code> + <code>stg_fc_horario_ponderado</code> · Horário × usina · ~8.760h</div>
+      </div>
+    </div>
+
+    <p>Esta é a camada de maior granularidade temporal do projeto. Os dados cobrem cada hora de 2025 para cada usina eólica e solar, separadas por subsistema.</p>
+
+    <div class="grid">
+      <div class="card">
+        <div class="chart-type" style="color:var(--accent);">🔥 Heatmap hora×mês</div>
+        <h3>Fator de capacidade médio — hora do dia × mês</h3>
+        <ul>
+          <li>Eixo X: mês (1–12)</li>
+          <li>Eixo Y: hora (0–23)</li>
+          <li>Cor: FC médio (0.0 → 1.0)</li>
+          <li>8 painéis: 4 subsistemas × 2 techs (sol, eol)</li>
+          <li>Este é exatamente o dado que vira <code>mart_disponibilidade</code></li>
+        </ul>
+        <div class="insight" style="margin-top:10px;">Solar tem padrão cônico claro (pico 10h–15h, zero à noite). Eólico é mais noturno/madrugada em algumas regiões — complementaridade operacional direta.</div>
+      </div>
+      <div class="card">
+        <div class="chart-type" style="color:var(--accent);">📈 Série horária raw</div>
+        <h3>FC horário ponderado — série completa 2025</h3>
+        <ul>
+          <li>8.760 pontos por (subsistema, tech)</li>
+          <li>Linha: FC ponderado pela capacidade instalada</li>
+          <li>Banda: min–max entre usinas do subsistema</li>
+          <li>Zoom interativo por período</li>
+        </ul>
+        <div class="insight" style="margin-top:10px;">A banda min–max revela diversidade intra-subsistema — se as usinas são muito heterogêneas, o FC médio ponderado pode mascarar desequilíbrios geográficos.</div>
+      </div>
+      <div class="card">
+        <div class="chart-type" style="color:var(--accent);">🕐 Curva de duração</div>
+        <h3>Curva de duração do FC (CDG)</h3>
+        <ul>
+          <li>FC ordenado de maior a menor</li>
+          <li>Eixo X: % das horas do ano</li>
+          <li>Eixo Y: FC</li>
+          <li>Uma curva por (subsistema, tech)</li>
+          <li>Área hachurada: FC &gt; 0.20 (limiar típico de viabilidade)</li>
+        </ul>
+        <div class="insight" style="margin-top:10px;">Quantifica o complemento de armazenamento necessário: área abaixo de ~0.05 FC representa horas de "calma" que precisariam de backup ou carga flexível.</div>
+      </div>
+      <div class="card">
+        <div class="chart-type" style="color:var(--accent);">🌐 Correlação cruzada subsistemas</div>
+        <h3>Correlação eólica entre subsistemas</h3>
+        <ul>
+          <li>Scatter: FC_NE × FC_S (vento)</li>
+          <li>Ponto por hora</li>
+          <li>Cor: mês</li>
+          <li>Baixa correlação = potencial de intercâmbio</li>
+          <li>Alta correlação = risco sistêmico simultâneo</li>
+        </ul>
+        <div class="insight" style="margin-top:10px;">Se NE e S têm eólico descorrelacionado, o intercâmbio N↔S ampliaria o potencial renovável sem aumentar o risco de apagão.</div>
+      </div>
+    </div>
+
+    <h3 class="sub-head">Granularidade por usina individual (raw)</h3>
+    <div class="grid">
+      <div class="card">
+        <div class="chart-type" style="color:var(--raw);">📊 Ranking de usinas</div>
+        <h3>Capacity factor anual por usina (raw)</h3>
+        <ul>
+          <li>Barras horizontais ordenadas por FC médio</li>
+          <li>Cor: subsistema</li>
+          <li>Facetado por tipo (EOL vs. SOL)</li>
+          <li>Tamanho do rótulo: MW instalado</li>
+          <li>Fonte: <code>raw_fator_capacidade</code> agregado por usina</li>
+        </ul>
+        <div class="insight" style="margin-top:10px;">Revela se a agregação por subsistema está escondendo usinas outlier (muito boas ou muito ruins) que deveriam ser tratadas separadamente.</div>
+      </div>
+      <div class="card">
+        <div class="chart-type" style="color:var(--raw);">📦 Violin / Box por usina</div>
+        <h3>Distribuição horária de FC por conjunto</h3>
+        <ul>
+          <li>1 violin por usina (nom_usina_conjunto)</li>
+          <li>Ordenado por mediana do FC</li>
+          <li>Cor: subsistema</li>
+          <li>Útil para identificar qual "conjunto" domina a média ponderada</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="spec">
+      <div class="spec-title">Dados necessários — View 3</div>
+      <dl>
+        <dt>Tabelas</dt>
+        <dd><code>raw_fator_capacidade</code>, <code>stg_fc_horario_ponderado</code>, <code>mart_disponibilidade</code>, <code>dim_conjunto_fc</code></dd>
+        <dt>Transformação prévia</dt>
+        <dd>Para o heatmap hora×mês: agrupar por (subsistema, tech, mês, hora) → média de <code>val_fatorcapacidade</code> ponderada por <code>val_capacidadeinstalada</code></dd>
+        <dt>Volume</dt>
+        <dd>raw_fator_capacidade: estimativa de 500k–2M linhas (8.760h × N conjuntos). Requer query eficiente — sugerido pré-agregar via SQL antes de enviar ao browser.</dd>
+      </dl>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ══════════════════════════════════════════
+       VIEW 4 — TRANSMISSÃO
+       ══════════════════════════════════════════ -->
+  <div class="section" id="transmissao">
+    <div class="section-header">
+      <div class="section-num">4</div>
+      <div>
+        <h2>View 4 — Rede de Transmissão</h2>
+        <div class="sub">Fonte: <code>raw_siget_linha</code> + <code>stg_siget_interligacao</code> + <code>mart_arco</code> · Linhas individuais → pares aggregados → arcos de modelo</div>
+      </div>
+    </div>
+
+    <p>A transmissão tem 3 níveis de granularidade — visualizá-los juntos mostra exatamente onde o modelo simplifica a realidade.</p>
+
+    <div class="grid">
+      <div class="card">
+        <div class="chart-type" style="color:var(--tag-tx);">📊 Barras empilhadas</div>
+        <h3>Capacidade por par e nível de tensão</h3>
+        <ul>
+          <li>Eixo X: 6 pares inter-regionais (N↔NE, NE↔SE_CO, SE_CO↔S, N↔SE_CO, NE↔S, N↔S)</li>
+          <li>Barras empilhadas: 230 / 345 / 440 / 500 / 525 / 800 kV</li>
+          <li>Valor: MVA total por nível</li>
+          <li>Marcador: capacidade final usada no <code>mart_arco</code></li>
+        </ul>
+        <div class="insight" style="margin-top:10px;">O mart soma todos os níveis de tensão em um único número — esta viz mostra se um par depende de muitas linhas antigas de 230kV ou de poucas linhas modernas de 800kV.</div>
+      </div>
+      <div class="card">
+        <div class="chart-type" style="color:var(--tag-tx);">🕸 Chord diagram / Matriz</div>
+        <h3>Matriz de capacidade inter-subsistema</h3>
+        <ul>
+          <li>Matriz 4×4: N, NE, S, SE_CO</li>
+          <li>Célula: MVA total disponível</li>
+          <li>Cor: utilização relativa (cap. / demanda destino)</li>
+          <li>Diagonal: zero (sem loop)</li>
+        </ul>
+        <div class="insight" style="margin-top:10px;">Identifica assimetrias: N→SE_CO pode ter capacidade muito diferente de SE_CO→N dependendo do direcionamento dos contratos.</div>
+      </div>
+      <div class="card">
+        <div class="chart-type" style="color:var(--tag-tx);">📊 Scatter km × MVA</div>
+        <h3>Eficiência das linhas (MVA por km)</h3>
+        <ul>
+          <li>Eixo X: comprimento km (<code>NumEtnLinTms_km</code>)</li>
+          <li>Eixo Y: MVA estimado</li>
+          <li>Cor: tensão (kV)</li>
+          <li>Tamanho: circuitos</li>
+          <li>Filtro: apenas ativas</li>
+        </ul>
+        <div class="insight" style="margin-top:10px;">Linhas longas de baixa tensão têm baixa eficiência — candidatas a reforço ou substituição por HVDC em horizontes de planejamento mais longos.</div>
+      </div>
+      <div class="card">
+        <div class="chart-type" style="color:var(--tag-tx);">📈 Histograma</div>
+        <h3>Distribuição de comprimentos e tensões</h3>
+        <ul>
+          <li>Histograma de <code>NumEtnLinTms_km</code></li>
+          <li>Stacked por nível de tensão</li>
+          <li>Separado por status (Ativa / Desativada)</li>
+          <li>Km total e n_circuitos como KPIs</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="spec">
+      <div class="spec-title">Dados necessários — View 4</div>
+      <dl>
+        <dt>Tabelas</dt>
+        <dd><code>raw_siget_linha</code>, <code>stg_siget_interligacao</code>, <code>mart_arco</code>, <code>raw_ref_mva_por_tensao</code>, <code>dim_par</code>, <code>dim_subsistema</code></dd>
+        <dt>Join necessário</dt>
+        <dd><code>SigUFSubestacaoOrigem</code> / <code>Destino</code> → UF_TO_SUB → dim_subsistema para identificar pares inter-regionais</dd>
+        <dt>Filtro principal</dt>
+        <dd><code>DscSitLinTms = 'Ativa'</code> para análise do sistema atual; mostrar desativadas em painel auxiliar</dd>
+      </dl>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ══════════════════════════════════════════
+       VIEW 5 — ECONOMIA
+       ══════════════════════════════════════════ -->
+  <div class="section" id="economia">
+    <div class="section-header">
+      <div class="section-num">5</div>
+      <div>
+        <h2>View 5 — Parâmetros Econômicos</h2>
+        <div class="sub">Fonte: <code>raw_pde_parametro</code> + <code>mart_parametro_tech</code> · Tecnologias × variantes de custo</div>
+      </div>
+    </div>
+
+    <p>Apesar de pequena em volume, esta tabela concentra os pressupostos mais impactantes para o resultado do modelo. Visualizá-la com sensibilidade é essencial.</p>
+
+    <div class="grid">
+      <div class="card">
+        <div class="chart-type" style="color:var(--accent);">📊 Grouped bar</div>
+        <h3>CAPEX, OM e CVU por tecnologia</h3>
+        <ul>
+          <li>4 grupos: sol, eol, hidro, term</li>
+          <li>3 barras por grupo: CAPEX (R$/kW), OM fixo (R$/kW/ano), CVU (R$/MWh)</li>
+          <li>Eixos duplos (escala diferente para CVU)</li>
+          <li>Referência: câmbio BRL/USD Dec 2024 = 6,10</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="chart-type" style="color:var(--accent);">📈 Curva CRF × WACC</div>
+        <h3>Capital Recovery Factor em função do WACC</h3>
+        <ul>
+          <li>Eixo X: WACC (4% → 15%)</li>
+          <li>Eixo Y: CRF = r(1+r)^n / ((1+r)^n − 1)</li>
+          <li>Uma linha por tecnologia (vida útil diferente)</li>
+          <li>Marcador vertical: WACC atual = 8%</li>
+        </ul>
+        <div class="insight" style="margin-top:10px;">Tecnologias com vida útil longa (solar 25a) são mais sensíveis ao WACC — uma variação de 8% para 12% aumenta o CRF em ~40%.</div>
+      </div>
+      <div class="card">
+        <div class="chart-type" style="color:var(--accent);">📊 Waterfall LCOE</div>
+        <h3>Composição do custo nivelado (LCOE implícito)</h3>
+        <ul>
+          <li>Para cada tecnologia: decomposição</li>
+          <li>Barra 1: parcela CAPEX × CRF (R$/MWh baseado em FC médio)</li>
+          <li>Barra 2: OM fixo / (8760 × FC)</li>
+          <li>Barra 3: CVU</li>
+          <li>Total: LCOE estimado em R$/MWh</li>
+        </ul>
+        <div class="insight" style="margin-top:10px;">O LCOE depende do FC médio de cada tecnologia/subsistema — linkando com a View 3, pode-se calcular LCOE regionalizado.</div>
+      </div>
+      <div class="card">
+        <div class="chart-type" style="color:var(--accent);">🌡 Heatmap sensibilidade</div>
+        <h3>LCOE × (WACC, CAPEX)</h3>
+        <ul>
+          <li>Eixo X: WACC (4% → 15%)</li>
+          <li>Eixo Y: CAPEX ± 30% do valor PDE</li>
+          <li>Cor: LCOE resultante</li>
+          <li>Um painel por tecnologia expansível (sol, eol)</li>
+        </ul>
+        <div class="insight" style="margin-top:10px;">Identifica em qual combinação de WACC+CAPEX uma tecnologia passa a ser mais cara que a outra — define limiares de decisão.</div>
+      </div>
+    </div>
+
+    <div class="spec">
+      <div class="spec-title">Dados necessários — View 5</div>
+      <dl>
+        <dt>Tabelas</dt>
+        <dd><code>raw_pde_parametro</code>, <code>mart_parametro_tech</code> (para CRF já calculado)</dd>
+        <dt>Cálculo in-browser</dt>
+        <dd>CRF(wacc, n) e LCOE(capex, om, cvu, crf, fc_medio) podem ser computados no JavaScript da viz — não requerem query adicional</dd>
+        <dt>Input do usuário</dt>
+        <dd>Slider de WACC (4%–15%) e multiplicador de CAPEX (−30% a +30%) para análise interativa de sensibilidade</dd>
+      </dl>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ══════════════════════════════════════════
+       QUESTÕES ESTRATÉGICAS
+       ══════════════════════════════════════════ -->
+  <div class="section" id="estrategia">
+    <div class="section-header">
+      <div class="section-num">7</div>
+      <div>
+        <h2>Questões estratégicas que cada view responde</h2>
+        <div class="sub">Por que visualizar cada dado — decisões de modelagem que dependem dessas análises</div>
+      </div>
+    </div>
+
+    <ul class="question-list">
+      <li>
+        <strong>Onde estão as lacunas geográficas de geração renovável?</strong>
+        <span>View 1 (mapa SIGA) → identifica regiões sem usinas solares/eólicas existentes ou planejadas — candidatas a instalação no modelo de expansão. Relevante para decidir quais subsistemas devem ser marcados como <code>is_expansivel = true</code>.</span>
+      </li>
+      <li>
+        <strong>Qual é a vida útil remanescente do parque instalado?</strong>
+        <span>View 1 (timeline SIGA) → usinas que entram em operação antes de 2000 podem sair do sistema antes do horizonte 2035, reduzindo a capacidade base. Hoje o modelo usa p₀ como fixo — isso seria uma subestimação do investimento necessário.</span>
+      </li>
+      <li>
+        <strong>O perfil de demanda mensal é suficiente ou precisa de resolução semanal/diária?</strong>
+        <span>View 2 (série + box-plot mensal) → se o desvio padrão intra-mensal for &gt;10% da média, a hipótese de demanda constante por mês introduz erro significativo nas horas de pico.</span>
+      </li>
+      <li>
+        <strong>Solar e eólico se complementam dentro de um mesmo subsistema?</strong>
+        <span>View 3 (heatmap FC hora×mês) → se solar tem pico diurno e eólico tem pico noturno/madrugada, a combinação reduz a necessidade de armazenamento ou backup térmico.</span>
+      </li>
+      <li>
+        <strong>Quão correlacionado é o vento entre subsistemas diferentes?</strong>
+        <span>View 3 (scatter correlação cruzada) → baixa correlação NE↔S valida o benefício do intercâmbio de energia eólica. Alta correlação implicaria que o modelo precisaria de maior capacidade de transmissão ou geração distribuída.</span>
+      </li>
+      <li>
+        <strong>O parque eólico/solar real é homogêneo dentro de cada subsistema?</strong>
+        <span>View 3 (violin por usina raw) → se houver usinas com FC muito abaixo da média do subsistema, a agregação por subsistema pode superestimar a disponibilidade real.</span>
+      </li>
+      <li>
+        <strong>Qual é o gargalo de transmissão inter-regional mais crítico?</strong>
+        <span>View 4 (matriz capacidade) → pares com baixa capacidade relativa à demanda do subsistema destino limitam o aproveitamento de excedentes renováveis de outras regiões.</span>
+      </li>
+      <li>
+        <strong>As linhas de transmissão ativas são resilientes ou dependem de poucos circuitos?</strong>
+        <span>View 4 (scatter km × MVA) → um par que depende de 1–2 linhas longas de alta tensão é vulnerável — o modelo assume capacidade garantida, mas a realidade tem indisponibilidade.</span>
+      </li>
+      <li>
+        <strong>O WACC de 8% é sensível o suficiente para inverter a ordem de competitividade sol vs. eol?</strong>
+        <span>View 5 (heatmap LCOE × WACC × CAPEX) → se o LCOE solar só supera o eólico acima de WACC=12%, o resultado do modelo é robusto a variações realistas de taxa.</span>
+      </li>
+      <li>
+        <strong>O bloco_mw mínimo de expansão reflete o mercado atual de EPC?</strong>
+        <span>View 5 (grouped bar) → 30 MW solar e 50 MW eólico são valores razoáveis para leilões de 2024, mas projetos menores existem. Alterar esse parâmetro muda a granularidade da solução ótima.</span>
+      </li>
+      <li>
+        <strong>A proxy de disponibilidade (N←NE, SE_CO←S) é uma simplificação aceitável?</strong>
+        <span>View 3 (ranking e violin por usina raw) → comparar o FC médio do subsistema proxy com o real estimado a partir das usinas SIGA naquele subsistema. Se divergir &gt;15%, vale criar uma fonte primária para N e SE_CO.</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ══════════════════════════════════════════
+       TECH STACK
+       ══════════════════════════════════════════ -->
+  <div class="section" id="tech">
+    <div class="section-header">
+      <div class="section-num">8</div>
+      <div>
+        <h2>Stack sugerida para implementação</h2>
+        <div class="sub">Recomendações para um dashboard interativo que leia diretamente do SQLite</div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h3>Opção A — Observable Framework</h3>
+        <ul>
+          <li>Lê SQLite direto via <code>DuckDB WASM</code> ou SQLite WASM no browser</li>
+          <li>Markdown + JavaScript → HTML estático deployável</li>
+          <li>Plot (Observablehq) para a maioria dos charts</li>
+          <li>Leaflet ou MapLibre para o mapa SIGA</li>
+          <li><strong>Vantagem:</strong> zero backend, arquivo único, SQL direto</li>
+          <li><strong>Desvantagem:</strong> o db tem 727MB — não embarca no browser; precisaria de DuckDB server ou pré-export de parquets</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Opção B — Streamlit (local)</h3>
+        <ul>
+          <li>Python nativo — mesmo ambiente do projeto</li>
+          <li>SQLAlchemy session já configurada</li>
+          <li>Plotly para charts interativos</li>
+          <li>Folium/Pydeck para mapa</li>
+          <li><strong>Vantagem:</strong> sem ETL extra, acesso total ao ORM, roda no laptop</li>
+          <li><strong>Desvantagem:</strong> requer servidor local, não é HTTP estático puro</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Opção C — Export → HTML estático</h3>
+        <ul>
+          <li>Script Python exporta todos os dados relevantes para JSON/parquet</li>
+          <li>HTML com D3.js ou Vega-Lite consome os JSONs embutidos</li>
+          <li>Totalmente offline, shareable via e-mail</li>
+          <li><strong>Vantagem:</strong> portátil, sem dependências</li>
+          <li><strong>Desvantagem:</strong> dados estáticos — não reflete novas instâncias do mart sem re-exportar</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="insight">
+      <strong>Recomendação:</strong> Dado que o projeto já tem Python/SQLAlchemy configurado, a sequência natural é <strong>Streamlit para exploração rápida</strong> (Opção B) e depois exportar as views finais como HTML estático auto-contido (Opção C) para compartilhamento. O mapa SIGA (10k usinas com lat/lon) é a view que mais ganha com interatividade real.
+    </div>
+
+    <h3 class="sub-head">Ordem de implementação sugerida (por valor/esforço)</h3>
+    <table class="data-table">
+      <thead>
+        <tr><th>#</th><th>View</th><th>Esforço</th><th>Valor estratégico</th><th>Dependência</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>View 3 — Heatmap FC hora×mês (8 painéis)</td><td>Baixo</td><td>Altíssimo — revela complementaridade sol/eol</td><td>stg_fc_horario_ponderado</td></tr>
+        <tr><td>2</td><td>View 2 — Série + box-plot demanda diária</td><td>Baixo</td><td>Alto — valida hipótese de demanda mensal constante</td><td>raw_carga_energia</td></tr>
+        <tr><td>3</td><td>View 5 — Sensibilidade LCOE × WACC</td><td>Médio</td><td>Alto — análise de robustez econômica</td><td>raw_pde_parametro + cálculo JS</td></tr>
+        <tr><td>4</td><td>View 1 — Mapa SIGA (pontos + fases + tipos)</td><td>Médio</td><td>Alto — visão geográfica do parque</td><td>raw_siga_usina com lat/lon</td></tr>
+        <tr><td>5</td><td>View 4 — Transmissão (barras + matriz)</td><td>Médio</td><td>Médio — contexto de rede</td><td>raw_siget_linha + UF_TO_SUB</td></tr>
+        <tr><td>6</td><td>View 3 — Série horária raw + CDG por usina</td><td>Alto</td><td>Médio — análise de heterogeneidade intra-subsistema</td><td>raw_fator_capacidade (volume alto)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ── WIREFRAME LAYOUT GERAL ── -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num" style="background:var(--muted);">∷</div>
+      <div>
+        <h2>Layout geral do dashboard</h2>
+        <div class="sub">Proposta de organização das 5 views em um único artefato</div>
+      </div>
+    </div>
+    <div class="wireframe">
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  PI ENERGIA — Exploração de Dados do SIN                                   │
+├─────────────────────────────────────────────────────────────────────────────┤
+│  [1 Parque Gerador] [2 Demanda] [3 Disponib.] [4 Transmissão] [5 Economia] │
+╠═════════════════════════════════════════════════════════════════════════════╣
+│  VIEW 1 — PARQUE GERADOR (SIGA)                                            │
+│  ┌─────────────────────────────────────────┐  ┌────────────────────────┐  │
+│  │                                         │  │  Sunburst: sub > tech  │  │
+│  │   MAPA DO BRASIL                        │  │  Area: MW fiscalizado  │  │
+│  │   • pontos por usina (cor=tech)         │  └────────────────────────┘  │
+│  │   • opacidade: fase                     │  ┌────────────────────────┐  │
+│  │   • raio: MW                            │  │  Histograma portes     │  │
+│  │   • linhas: SIGET ativas (cor=kV)       │  │  (log-scale por tech)  │  │
+│  │                                         │  └────────────────────────┘  │
+│  │                    [Filtros: tech/fase] │  ┌────────────────────────┐  │
+│  │                                         │  │  Timeline entrada op.  │  │
+│  └─────────────────────────────────────────┘  └────────────────────────┘  │
+╠═════════════════════════════════════════════════════════════════════════════╣
+│  VIEW 2 — DEMANDA DIÁRIA                                                   │
+│  ┌──────────────────────────────────────┐  ┌─────────────────────────────┐ │
+│  │  Série diária 2025 (4 linhas)        │  │  Box-plot mensal            │ │
+│  │  + marcadores de média mensal (mart) │  │  (4 subsistemas × 12 meses) │ │
+│  └──────────────────────────────────────┘  └─────────────────────────────┘ │
+╠═════════════════════════════════════════════════════════════════════════════╣
+│  VIEW 3 — DISPONIBILIDADE RENOVÁVEL                                        │
+│  ┌──── SOLAR ─────────────────────────────────────────────────────────────┐ │
+│  │  Heatmap mês×hora: [N] [NE] [S] [SE_CO]                               │ │
+│  └────────────────────────────────────────────────────────────────────────┘ │
+│  ┌──── EÓLICO ────────────────────────────────────────────────────────────┐ │
+│  │  Heatmap mês×hora: [N proxy] [NE] [S] [SE_CO proxy]                   │ │
+│  └────────────────────────────────────────────────────────────────────────┘ │
+│  ┌──────────────────────────────┐  ┌───────────────────────────────────┐   │
+│  │  Curva de duração (4 sub,    │  │  Scatter correlação sol↔eol       │   │
+│  │  2 techs sobrepostos)        │  │  e NE↔S (eólico)                  │   │
+│  └──────────────────────────────┘  └───────────────────────────────────┘   │
+╠═════════════════════════════════════════════════════════════════════════════╣
+│  VIEW 4 — TRANSMISSÃO                    VIEW 5 — ECONOMIA                 │
+│  ┌───────────────────────┐  ┌──────────┐ ┌─────────────┐  ┌─────────────┐ │
+│  │ Barras empilhadas     │  │  Matriz  │ │ CAPEX/OM/CVU│  │ CRF×WACC   │ │
+│  │ MVA por par × kV      │  │  4×4 cap │ │ por tech    │  │ sensib.     │ │
+│  └───────────────────────┘  └──────────┘ └─────────────┘  └─────────────┘ │
+│                                          ┌─────────────┐  ┌─────────────┐ │
+│                                          │ Waterfall   │  │ Heatmap     │ │
+│                                          │ LCOE decomp │  │ LCOE×WACC  │ │
+│                                          └─────────────┘  └─────────────┘ │
+└─────────────────────────────────────────────────────────────────────────────┘
+    </div>
+  </div>
+
+  <footer>
+    Plano de Visualização — PI Energia · SIN · Gerado em Abril 2026
+  </footer>
+
+</div>
+</body>
+</html>

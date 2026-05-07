@@ -1,0 +1,16 @@
+# MVA de referência por circuito, proxy por tensão nominal.
+# Fonte: hipótese explícita do MVP. Valores baseados em ordens de grandeza
+# típicas do SIN (ONS/ONS Operacional). Justifica-se em:
+# /Users/bertone/Coding/PI-energia/datasets/SIGET - Contrato Módulo Linha Transmissão/README.md
+# (o SIGET não traz MVA nominal; esta tabela é o proxy adotado).
+
+fator_potencia: 0.95
+source: "Hipótese MVP (proxy de capacidade térmica por kV)"
+ref:
+  230: 300     # MVA / circuito
+  345: 700
+  440: 1000
+  500: 1400
+  525: 1500
+  600: 2800    # HVDC bipolo ~3 GW
+  800: 4000    # HVDC bipolo Belo Monte ~4 GW
